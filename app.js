@@ -9,7 +9,14 @@ var usersRouter = require("./routes/users");
 var contestantRouter = require("./routes/contestant");
 var votersRouter = require("./routes/voters");
 
+var mongoose = require("mongoose");
+const { MongoClient } = require("mongodb");
+
 var app = express();
+
+var MONGODB_URI = "mongodb://localhost:27017/evote";
+
+mongoose.connect(MONGODB_URI);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -23,7 +30,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/contestants", contestantRouter);
+app.use("/contestant", contestantRouter);
 app.use("/voters", votersRouter);
 
 // catch 404 and forward to error handler
