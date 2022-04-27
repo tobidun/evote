@@ -17,6 +17,8 @@ const voterSchema = new Schema({
     required: true,
   },
 
+  age: { type: Number, min: 18, max: 65 },
+
   createdAt: {
     type: Date,
     default: Date.now(),

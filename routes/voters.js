@@ -21,6 +21,7 @@ router.post(
     check("password", "Please enter a valid password").isLength({
       min: 6,
     }),
+    check("age", "Please Enter a age that is 18 and above").isNumeric(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -29,7 +30,7 @@ router.post(
         errors: errors.array(),
       });
     }
-    const { username, email, password } = req.body;
+    const { username, email, password, age } = req.body;
     try {
       let isVoterExist = await Voter.findOne({ email: email });
       if (isVoterExist) {
@@ -49,6 +50,7 @@ router.post(
         email: req.body.email,
         username: req.body.username,
         password: hashedPassword,
+        age: req.body.age,
       });
       const savedVoter = await voter.save();
       res.json(savedVoter);
@@ -109,4 +111,13 @@ router.post(
   }
 );
 
+router.post("/logout", async (req, res) => {
+  try {
+    console.log("You have successfully logout");
+    res.send({ message: "You have successfully logout" });
+  } catch (e) {
+    console.log(e);
+    res.json({ message: Error });
+  }
+});
 module.exports = router;
